@@ -1,0 +1,13 @@
+--- 
+applications: 
+  .: 
+    name: openstack-election
+    instances: 1
+    framework: 
+      name: sinatra
+      info: 
+        exec: ruby hello.rb
+        description: Sinatra Application
+        mem: 128M
+    url: ${name}.${target-base}
+    mem: 128M
