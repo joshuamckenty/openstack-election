@@ -1,0 +1,6 @@
+<!-- views/nomination.erb -->
+<img src="<%= getGravatarURL(@nom.email) %>"/>
+<h1><%= @nom.candidate %></h1>
+<p><%= @nom.body %></p>
+<p><a href="/nomination/<%= @nom.email %>/plusone">Second that!</a></p>
+<a href="/">Back to all Nominations</a>

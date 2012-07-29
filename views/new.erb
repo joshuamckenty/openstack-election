@@ -1,8 +1,9 @@
 <!-- views/new.erb -->
 
-<h1>Create a new blog post</h1>
-<form action="/post/create" method="POST">
- <p>Title: <input type="text" name="title"></input></p>
- <p>Text: <textarea name="body" rows="10" cols="40"></textarea></p>
+<h1>Create a new candidate nomination</h1>
+<form action="/nomination/create" method="POST">
+ <p>Candidate name: <input type="text" name="candidate"></input></p>
+ <p>Candidate email: <input type="text" name="email" ></input></p>
+ <p>Your email: <input type="text" name="nominator_email" ></input></p>
  <input type="submit" name="Publish" />
 </form>

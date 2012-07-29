@@ -33,31 +33,47 @@ class Nomination
   property :nominator_email, String
   property :body, Text
   property :created_at, DateTime
-  property :published, Boolean, :default  => false
+  property :confirmed, Boolean, :default  => false
 end
 
 DataMapper.finalize
 Post.auto_upgrade!
+Nomination.auto_upgrade!
+
+# get '/' do
+#   @posts = Post.all(:order => [:id.desc], :limit => 20)
+#   erb :index
+# end
+
+helpers do
+  
+  def getGravatarURL(email)
+    return "http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(email.strip.downcase)}"
+  end
+  
+end
 
 get '/' do
-  @posts = Post.all(:order => [:id.desc], :limit => 20)
+  @nominations = repository(:default).adapter.select('select candidate, email, confirmed, count(nominator_email) as nomcount from nominations group by email')
+  # @nominations = Nomination.aggregate(:candidate, :email, :all.count)
+  # @nominations = Nomination.all(:order => [:candidate.desc], :limit => 100)
   erb :index
 end
 
-get '/post/new' do
+get '/nomination/new' do
   erb :new
 end
 
-get '/post/:id' do
-  @post = Post.get(params[:id])
-  erb :post
+get '/nomination/:email' do
+  @nom = Nomination.first(:email => params[:email])
+  erb :nomination
 end
 
-post '/post/create' do
-  post = Post.new(:title => params[:title], :body => params[:body])
-  if post.save
+post '/nomination/create' do
+  nom = Nomination.new(:candidate => params[:candidate], :nominator_email => params[:nominator_email], :email => params[:email])
+  if nom.save
     status 201
-    redirect "/post/#{post.id}"
+    redirect "/nomination/#{nom.email}"
   else
     status 412
     redirect '/'

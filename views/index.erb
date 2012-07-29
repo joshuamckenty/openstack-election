@@ -1,9 +1,15 @@
 <!-- views/index.erb -->
 
-<h1>All Blog Posts</h1>
+<h1>All Nominations for OpenStack BoD Candidates</h1>
+<p>Please note the following:
+    Every nomination is shown here - however, only those nominations that are confirmed to be from the official email address of openstack foundation members can be counted towards the 10 nomination minimum. Therefore, please make sure to use your official email address, and click the link in your confirmation email. 
+    (The confirmation email isn't actually working yet - but it will.)
+</p>
 <ul>
-  <% @posts.each do |post| %>
-    <li><a href="/post/<%= post.id %>"><%= post.title %></a></li>
+  <% @nominations.each do |nom| %>
+    <li>
+        <img src="<%= getGravatarURL(nom.email) %>"/>
+        <a href="/nomination/<%= nom.email %>"><%= nom.candidate %></a> (<%= nom.nomcount %>)</li>
   <% end %>
 <br />
-<a href="/post/new">Create new post</a>
+<a href="/nomination/new">Add a new nomination</a>
